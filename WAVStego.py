@@ -13,7 +13,7 @@ def isolateBit(currChar, index):
 def averageLSB(frame):
 
   sum = 0
-  for i in range(0,len(frame)):
+  for i in range(0,4):
     print("here", frame[i])
     sum += frame[i]
 
@@ -32,17 +32,12 @@ def adjustFrame(frame):
 
   if not upperBoundFlag and not lowerBoundFlag:
     for i in range(0,4):
-      newFrame[i] = frame[i] + 1
+      newFrame += chr(frame[i] + 1)
 
   elif upperBoundFlag and not lowerBoundFlag:
     for i in range(0,4):
-      newFrame[i] = frame[i] - 1
+      newFrame += chr(frame[i] - 1)
 
-  elif upperBoundFlag and lowerBoundFlag:
-    for i in range(0,4):
-      if frame[i] == 256:
-        frame[i] = 252
-      newFrame[i] = frame[i]
     
 
 # hiding function
@@ -98,7 +93,7 @@ def hide(textFile, waveFile, stegoFile):
       if averageLSBVal != currentBit:
         # create frame with new sample values
         newFrame = adjustFrame(frame)
-        outputWave.writeframes(newFrame)
+        outputWave.writeframes(str.encode(str(newFrame)))
       else:
         # if equal make no changes 
         outputWave.writeframes(frame)
