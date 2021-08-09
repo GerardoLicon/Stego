@@ -1,9 +1,7 @@
 import wave, sys
 
 # Helper Functions
-
 ## isolate the bit in a char with the specified index
-
 def isolateBit(currChar, index):
   temp = ord(currChar)
   for i in range(0, index):
@@ -13,8 +11,10 @@ def isolateBit(currChar, index):
 
 ## return the LSB from the average of the samples in the frame
 def averageLSB(frame):
+
   sum = 0
-  for i in range(0,4):
+  for i in range(0,len(frame)):
+    print("here", frame[i])
     sum += frame[i]
 
   return (sum // 4) % 2
@@ -47,7 +47,6 @@ def adjustFrame(frame):
 
 # hiding function
 def hide(textFile, waveFile, stegoFile):
-
 
   #read and extract data from text file
   text = open(textFile, 'r')
@@ -85,7 +84,7 @@ def hide(textFile, waveFile, stegoFile):
     
     temp = temp // 100
   # write the length of the text file in the first frame  
-  outputWave.writeframes(frame)
+  outputWave.writeframes(str.encode(frame))
 
   # read char from text file and loop through each bit 
   for i in range(0, textLength):
@@ -129,3 +128,22 @@ def extract(stegoFile,message):
     inputWave.close()
     textMessage.close()
 
+def main(argv):
+    textFile = ''
+    waveFile = ''
+    stegoFile = ''
+    message = ''
+    if (len(sys.argv) == 5 and sys.argv[1] == 'hide'):
+        textFile = sys.argv[2]
+        waveFile = sys.argv[3]
+        stegoFile = sys.argv[4]
+        hide(textFile,waveFile,stegoFile)
+    elif (len(sys.argv) == 4 and sys.argv[1] == 'extract'):
+        hiddenfile = sys.argv[2]
+        message = sys.argv[3]
+        extract(hiddenfile,message)
+    else:
+        print('Usage: WAVStego.py hide <textfile> <wavefile> <stegowavefile>\nUsage: WAVStego.py extract <stegowavefile> <resulttextfile>')
+    
+if __name__ == '__main__':
+    main(sys.argv[1:])
