@@ -14,7 +14,6 @@ def averageLSB(frame):
 
   sum = 0
   for i in range(0,4):
-    print("here", frame[i])
     sum += frame[i]
 
   return (sum // 4) % 2
