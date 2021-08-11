@@ -111,7 +111,7 @@ def extract(stegoFile,message):
     inputWave = wave.open(stegoFile,'r')
     numFrames = inputWave.getnframes() #number frames in wav file
     frame = inputWave.readframes(1)
-    textLength = ord(frame[0]) + 100*(ord(frame[1])) + 10000*(ord(frame[2])) + 1000000*(ord(frame[3])) #grabs text length from first frame of audio
+    textLength = frame[0] + 100*(frame[1]) + 10000*(frame[2]) + 1000000*(frame[3]) #grabs text length from first frame of audio
    
     value = 0
     for i in range(0, textLength):
